@@ -19,7 +19,11 @@ void ASprite::Destroy()
 
 void ASprite::Init()
 {
-    if (m_Tex.loadFromFile(m_Path)) {
+    sf::FileInputStream stream;
+    stream.open(m_Path);
+    
+    if (m_Tex.loadFromStream(stream)) {
+    //if (m_Tex.loadFromFile(m_Path)) {
         m_Tex.setRepeated(m_RepeatTex);
         m_Sprite.setTextureRect(m_Size);
         m_Sprite.setTexture(m_Tex);

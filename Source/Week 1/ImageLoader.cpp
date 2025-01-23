@@ -4,6 +4,9 @@
 #include "EngineTime.h"
 #include <filesystem>
 
+#include <thread>
+#include <chrono>
+
 ImageLoader* ImageLoader::i = NULL;
 
 
@@ -37,7 +40,9 @@ void ImageLoader::Update()
     Time += EngineTime::GetDelta();
 
 
-    if (Time > 1 && i->m_Images.size() < i->m_Filenames.size()) {
+    if (Time > 0.25f && i->m_Images.size() < i->m_Filenames.size()) {
+        //std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+        
         Time = 0;
 
         int index = i->m_Images.size();
