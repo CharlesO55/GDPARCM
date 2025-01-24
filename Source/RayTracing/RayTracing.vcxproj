@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(SolutionDir)Dependencies\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(SolutionDir)Dependencies\opencv\build\include;$(ExternalIncludePath)</ExternalIncludePath>
+    <ExecutablePath>$(SolutionDir)Dependencies\opencv\build\x64\vc15\bin;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

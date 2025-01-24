@@ -5,7 +5,10 @@
 #include "material.h"
 
 #include "RTImage.h"
+
 #include <fstream>
+#include <opencv2/opencv.hpp>
+#include <thread>
 
 class camera {
 public:
@@ -23,19 +26,17 @@ public:
     double defocus_angle = 0;  // Variation angle of rays through each pixel
     double focus_dist = 10;    // Distance from camera lookfrom point to plane of perfect focus
 
+    RTImage *CV_Image;
 
+#if RENDER_AS_PPM
     void render(const hittable& world) {
         std::ofstream file("Renders/PPM_Output.ppm");
         if (!file) {
             std::cerr << "Error opening file!" << std::endl;
             return;
         }
-        
+
         initialize();
-
-        RTImage PNG_Image = RTImage(image_width, image_height);
-        
-
 
         file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
 
@@ -47,36 +48,78 @@ public:
                     ray r = get_ray(i, j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                
+
                 //PPM OUTPUT
                 write_color(file, pixel_samples_scale * pixel_color);
-                
-                //PNG
-                color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
-                PNG_Image.setPixel(i, j, curr_pixel_values.x(), curr_pixel_values.y(), curr_pixel_values.z(), samples_per_pixel);
-
-                
-#if 0
-                auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
-                auto ray_direction = pixel_center - center;
-                ray r(center, ray_direction);
-
-                color pixel_color = ray_color(r, world);
-                write_color(file, pixel_color);
-#endif // 0
-
-                
             }
         }
 
         file.close();
-        
-        //PNG_Image.setPixel(0, 0, 1, 1, 1, samples_per_pixel);
-        cv::String PNG_filename = "Renders/PNG_Output.png";
-        PNG_Image.saveImage(PNG_filename);
-        
+
         std::clog << "\rDone.                 \n";
     }
+#else
+    void DisplayRender() {
+        while (true) {
+            cv::imshow("Render", *CV_Image->getBGRChannel()->get());
+            if (cv::waitKey(1000) > 0) {
+                cv::destroyAllWindows();
+                break;
+            }
+        }
+    }
+
+    void ComputePixel(int i, int j, const hittable& world) {
+        color pixel_color(0, 0, 0);
+        for (int sample = 0; sample < samples_per_pixel; sample++) {
+            ray r = get_ray(i, j);
+            pixel_color += ray_color(r, max_depth, world);
+        }
+
+        //PNG
+        color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
+        CV_Image->setPixel(i, j, curr_pixel_values.x(), curr_pixel_values.y(), curr_pixel_values.z(), samples_per_pixel);
+    }
+
+    void render(const hittable& world) {
+        initialize();
+
+        CV_Image = new RTImage(image_width, image_height);
+
+        //std::thread thread_Display(&camera::DisplayRender, this);
+
+
+        for (int j = 0; j < image_height; j++) {
+            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+            for (int i = 0; i < image_width; i++) {
+
+                ComputePixel(i, j, world);
+                //std::thread thread_Compute(&camera::ComputePixel, this, i, j, std::ref(world));
+                //thread_Compute.detach();
+                /*
+                color pixel_color(0, 0, 0);
+                for (int sample = 0; sample < samples_per_pixel; sample++) {
+                    ray r = get_ray(i, j);
+                    pixel_color += ray_color(r, max_depth, world);
+                }
+
+                //PNG
+                color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
+                CV_Image->setPixel(i, j, curr_pixel_values.x(), curr_pixel_values.y(), curr_pixel_values.z(), samples_per_pixel);*/
+            }
+        }
+
+        cv::String PNG_filename = "Renders/PNG_Output.png";
+        CV_Image->saveImage(PNG_filename);
+
+        //thread_Display.join();
+
+        std::clog << "\rDone.                 \n";
+    }
+#endif // RENDER_AS_PPM
+
+
+    
 
 private:
     /* Private Camera Variables Here */
@@ -120,20 +163,13 @@ private:
         // Calculate the vectors across the horizontal and down the vertical viewport edges.
         vec3 viewport_u = viewport_width * u;    // Vector across viewport horizontal edge
         vec3 viewport_v = viewport_height * -v;  // Vector down viewport vertical edge
-        /*
-        // Calculate the vectors across the horizontal and down the vertical viewport edges.
-        auto viewport_u = vec3(viewport_width, 0, 0);
-        auto viewport_v = vec3(0, -viewport_height, 0);*/
+        
 
         // Calculate the horizontal and vertical delta vectors from pixel to pixel.
         pixel_delta_u = viewport_u / image_width;
         pixel_delta_v = viewport_v / image_height;
 
         // Calculate the location of the upper left pixel.
-        //auto viewport_upper_left =
-        //    center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
-        //auto viewport_upper_left = center - (focal_length * w) - viewport_u / 2 - viewport_v / 2;
-        
         auto viewport_upper_left = center - (focus_dist * w) - viewport_u / 2 - viewport_v / 2;
         pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
@@ -205,7 +241,6 @@ private:
         // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
         return vec3(random_double() - 0.5, random_double() - 0.5, 0);
     }
-
 };
 
 #endif

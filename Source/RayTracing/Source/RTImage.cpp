@@ -8,7 +8,7 @@ RTImage::RTImage(const int imageWidth, const int imageHeight) :
 	imageWidth(imageWidth),
 	imageHeight(imageHeight)
 {
-	space_RGB = std::make_unique<cv::Mat>(cv::Mat::zeros(imageHeight, imageWidth, CV_8UC3));
+	BGR_Channel = std::make_unique<cv::Mat>(cv::Mat::zeros(imageHeight, imageWidth, CV_8UC3));
 }
 
 void RTImage::setPixel(int x, int y, float r, float g, float b, int samplePerPixel)
@@ -34,10 +34,15 @@ void RTImage::setPixel(int x, int y, float r, float g, float b, int samplePerPix
 	cv::merge(imgChannels, 3, *this->pixels);*/
 	 
 	
-	space_RGB.get()->at<cv::Vec3b>(y, x) = cv::Vec3b(bInt, gInt, rInt);
+	BGR_Channel.get()->at<cv::Vec3b>(y, x) = cv::Vec3b(bInt, gInt, rInt);
 }
 
 void RTImage::saveImage(cv::String& fileName) const
 {
-	cv::imwrite(fileName, *this->space_RGB);
+	cv::imwrite(fileName, *this->BGR_Channel);
+}
+
+const std::unique_ptr<cv::Mat>* RTImage::getBGRChannel()
+{
+	return &BGR_Channel;
 }
