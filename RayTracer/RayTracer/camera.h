@@ -3,6 +3,8 @@
 
 #include "hittable.h"
 #include "material.h"
+
+#include "RTImage.h"
 #include <fstream>
 
 class camera {
@@ -23,7 +25,7 @@ public:
 
 
     void render(const hittable& world) {
-        std::ofstream file("../output.ppm");
+        std::ofstream file("../Outputs/PPM_Output.ppm");
         if (!file) {
             std::cerr << "Error opening file!" << std::endl;
             return;
@@ -31,6 +33,8 @@ public:
         
         initialize();
 
+        RTImage PNG_Image = RTImage(image_width, image_height);
+        
 
 
         file << "P3\n" << image_width << ' ' << image_height << "\n255\n";
@@ -43,7 +47,13 @@ public:
                     ray r = get_ray(i, j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                write_color(file, pixel_samples_scale * pixel_color);
+                
+                //write_color(file, pixel_samples_scale * pixel_color);
+                
+                
+                color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
+                PNG_Image.setPixel(i, j, curr_pixel_values.x(), curr_pixel_values.y(), curr_pixel_values.z(), samples_per_pixel);
+
 #if 0
                 auto pixel_center = pixel00_loc + (i * pixel_delta_u) + (j * pixel_delta_v);
                 auto ray_direction = pixel_center - center;
@@ -58,6 +68,11 @@ public:
         }
 
         file.close();
+        
+        //PNG_Image.setPixel(0, 0, 1, 1, 1, samples_per_pixel);
+        cv::String PNG_filename = "../Outputs/PNG_Output.png";
+        PNG_Image.saveImage(PNG_filename);
+        
         std::clog << "\rDone.                 \n";
     }
 
