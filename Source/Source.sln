@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Week 1", "Week 1\Week 1.vcxproj", "{10B887BA-D9B3-4963-9306-87EDC4743780}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RayTracing", "RayTracing\RayTracing.vcxproj", "{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{10B887BA-D9B3-4963-9306-87EDC4743780}.Release|x64.Build.0 = Release|x64
 		{10B887BA-D9B3-4963-9306-87EDC4743780}.Release|x86.ActiveCfg = Release|Win32
 		{10B887BA-D9B3-4963-9306-87EDC4743780}.Release|x86.Build.0 = Release|Win32
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Debug|x64.ActiveCfg = Debug|x64
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Debug|x64.Build.0 = Debug|x64
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Debug|x86.ActiveCfg = Debug|Win32
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Debug|x86.Build.0 = Debug|Win32
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x64.ActiveCfg = Release|x64
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x64.Build.0 = Release|x64
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x86.ActiveCfg = Release|Win32
+		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,9 +48,10 @@ public:
                     pixel_color += ray_color(r, max_depth, world);
                 }
                 
+                //PPM OUTPUT
                 //write_color(file, pixel_samples_scale * pixel_color);
                 
-                
+                //PNG
                 color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
                 PNG_Image.setPixel(i, j, curr_pixel_values.x(), curr_pixel_values.y(), curr_pixel_values.z(), samples_per_pixel);
 
