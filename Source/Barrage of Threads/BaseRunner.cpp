@@ -17,7 +17,7 @@ const sf::Time BaseRunner::TIME_PER_FRAME = sf::seconds(1.0f / FRAME_RATE);
 BaseRunner* BaseRunner::sharedInstance = NULL;
 
 BaseRunner::BaseRunner() :
-	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "HO: Entity Component", sf::Style::Close) {
+	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "HO: Barrage of Threads", sf::Style::Close) {
 
 	sharedInstance = this;
 	this->window.setFramerateLimit(int(FRAME_RATE));
@@ -37,23 +37,37 @@ BaseRunner::BaseRunner() :
 }
 
 void BaseRunner::run() {
+	float MAX_FPS = 60.f;
+	float MIN_THRESHOLD = 1 / MAX_FPS;
+
 	sf::Clock clock;
 	sf::Time previousTime = clock.getElapsedTime();
 	sf::Time currentTime;
+
+	sf::Time DELTA;
+
+	//std::thread renderThread(&BaseRunner::render, this);
+	//renderThread.detach();
+
 	while (this->window.isOpen())
 	{
 		currentTime = clock.getElapsedTime();
-		float deltaTime = currentTime.asSeconds() - previousTime.asSeconds();
-		this->fps = floor(1.0f / deltaTime);
+		//float deltaTime = currentTime.asSeconds() - previousTime.asSeconds();
+		DELTA += currentTime - previousTime;
+		previousTime = currentTime;
 
 		processEvents();
-		update(sf::seconds(1.0f / this->fps));
+
+		if (DELTA > BaseRunner::TIME_PER_FRAME) {
+			this->fps = 1 / DELTA.asSeconds();
+			
+			//update(sf::seconds(1.0f / this->fps));
+			update(DELTA);
+			DELTA = DELTA.Zero;
+		}
 		render();
-		
-		previousTime = currentTime;
-		
-		
 	}
+
 }
 
 BaseRunner* BaseRunner::getInstance()
@@ -76,7 +90,16 @@ void BaseRunner::processEvents()
 		case sf::Event::Closed:
 			this->window.close();
 			break;
-
+		case sf::Event::KeyPressed:
+			switch (event.key.code)
+				{
+				case sf::Keyboard::Escape:
+					this->window.close();
+					break;
+				default:
+					break;
+				}
+			break;
 		}
 	}
 }

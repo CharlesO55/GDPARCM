@@ -38,4 +38,9 @@ private:
 
 	void countStreamingAssets();
 
+
+	std::vector<std::string> paths;
+	std::vector<IExecutionEvent*> execs;
+
+	void WaitForBatchLoading();
 };

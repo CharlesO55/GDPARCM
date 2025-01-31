@@ -21,7 +21,8 @@ void TextureDisplay::processInput(sf::Event event)
 
 void TextureDisplay::update(sf::Time deltaTime)
 {
-	this->ticks += BaseRunner::TIME_PER_FRAME.asMilliseconds();
+	this->ticks = deltaTime.asMilliseconds();
+	//this->ticks += BaseRunner::TIME_PER_FRAME.asMilliseconds();
 	if (this->streamingType == StreamingType::BATCH_LOAD && !this->startedStreaming && this->ticks > this->STREAMING_LOAD_DELAY)
 	{
 		this->startedStreaming = true;
@@ -32,7 +33,7 @@ void TextureDisplay::update(sf::Time deltaTime)
 	{
 		this->ticks = 0.0f;
 		TextureManager::getInstance()->loadSingleStreamAsset(this->numDisplayed, this);
-		this->numDisplayed++;
+		this->numDisplayed++; 
 	}
 }
 
@@ -55,7 +56,7 @@ void TextureDisplay::spawnObject()
 	float y = this->rowGrid * IMG_HEIGHT;
 	iconObj->setPosition(x, y);
 
-	std::cout << "Set position: " << x << " " << y << std::endl;
+	//std::cout << "Set position: " << x << " " << y << std::endl;
 
 	this->columnGrid++;
 	if(this->columnGrid == this->MAX_COLUMN)

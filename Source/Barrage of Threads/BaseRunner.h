@@ -5,7 +5,6 @@ using namespace std;
 class BaseRunner : private sf::NonCopyable
 {
 public:
-	static const sf::Time	TIME_PER_FRAME;
 	static const int WINDOW_WIDTH = 1920;
 	static const int WINDOW_HEIGHT = 1080;
 
@@ -16,7 +15,9 @@ public:
 	static BaseRunner* sharedInstance;
 	float getFPS() const;
 
+
 private:
+	static const sf::Time	TIME_PER_FRAME;
 	
 	sf::RenderWindow		window;
 	float fps = 0.0f;
