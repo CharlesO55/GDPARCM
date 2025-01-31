@@ -86,7 +86,7 @@ public:
 
         CV_Image = new RTImage(image_width, image_height);
 
-        //std::thread thread_Display(&camera::DisplayRender, this);
+        std::thread thread_Display(&camera::DisplayRender, this);
 
 
         for (int j = 0; j < image_height; j++) {
@@ -112,7 +112,7 @@ public:
         cv::String PNG_filename = "Renders/PNG_Output.png";
         CV_Image->saveImage(PNG_filename);
 
-        //thread_Display.join();
+        thread_Display.join();
 
         std::clog << "\rDone.                 \n";
     }

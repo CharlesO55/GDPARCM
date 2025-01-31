@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Week 1", "Week 1\Week 1.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RayTracing", "RayTracing\RayTracing.vcxproj", "{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Barrage of Threads", "Barrage of Threads\Barrage of Threads.vcxproj", "{BDF54B02-6CF5-4F32-942A-37A165D1AC26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x64.Build.0 = Release|x64
 		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x86.ActiveCfg = Release|Win32
 		{A6C3B272-CD5F-440D-B1E4-25BAB4F96C30}.Release|x86.Build.0 = Release|Win32
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Debug|x64.ActiveCfg = Debug|x64
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Debug|x64.Build.0 = Debug|x64
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Debug|x86.ActiveCfg = Debug|Win32
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Debug|x86.Build.0 = Debug|Win32
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Release|x64.ActiveCfg = Release|x64
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Release|x64.Build.0 = Release|x64
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Release|x86.ActiveCfg = Release|Win32
+		{BDF54B02-6CF5-4F32-942A-37A165D1AC26}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
