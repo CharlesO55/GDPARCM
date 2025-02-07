@@ -16,5 +16,6 @@ struct RenderSettings {
     double defocus_angle = 0;  // Variation angle of rays through each pixel
     double focus_dist = 10;    // Distance from camera lookfrom point to plane of perfect focus
 
+    int DisplayDelay = 10000;
     int Threads = 5;
 };

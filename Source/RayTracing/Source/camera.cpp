@@ -10,7 +10,7 @@ camera::camera(const RenderSettings& Settings) : SETTINGS(Settings)
 void camera::DisplayRender() {
     while (true) {
         cv::imshow("Render", *CV_Image->getBGRChannel()->get());
-        if (cv::waitKey(1000) > 0) {
+        if (cv::waitKey(SETTINGS.DisplayDelay) > 0) {
             cv::destroyAllWindows();
             break;
         }
@@ -18,17 +18,23 @@ void camera::DisplayRender() {
 }
 
 void camera::ComputePixel(int i, int j, const hittable& world, Command* onFinish) {
-    color pixel_color(0, 0, 0);
-    for (int sample = 0; sample < SETTINGS.samples_per_pixel; sample++) {
-        ray r = get_ray(i, j);
-        pixel_color += ray_color(r, SETTINGS.max_depth, world);
+    try
+    {
+        color pixel_color(0, 0, 0);
+        for (int sample = 0; sample < SETTINGS.samples_per_pixel; sample++) {
+            ray r = get_ray(i, j);
+            pixel_color += ray_color(r, SETTINGS.max_depth, world);
+        }
+
+        //PNG
+        color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
+        CV_Image->setPixel(i, j, (float)curr_pixel_values.x(), (float)curr_pixel_values.y(), (float)curr_pixel_values.z(), SETTINGS.samples_per_pixel);
     }
-
-    //PNG
-    color curr_pixel_values = output_color(pixel_samples_scale * pixel_color);
-    CV_Image->setPixel(i, j, (float)curr_pixel_values.x(), (float)curr_pixel_values.y(), (float)curr_pixel_values.z(), SETTINGS.samples_per_pixel);
-
-
+    catch (const std::exception&)
+    {
+        std::cout << "\nError at (" << i << ", " << j << ")\n";
+    }
+    
     onFinish->Execute();
 }
 

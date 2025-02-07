@@ -9,23 +9,23 @@ RenderSettings Presets::CreateSettings(int ID)
 {
     RenderSettings Settings;
     Settings.aspect_ratio = 16.0 / 9.0;
-    Settings.image_width = 400;
-    Settings.samples_per_pixel = 250;
-    Settings.max_depth = 25;
+    Settings.image_width = 1920;
+    Settings.samples_per_pixel = 300;
+    Settings.max_depth = 20;
 
     Settings.vfov = 20;
     Settings.lookfrom = point3(13, 2, 3);
     Settings.lookat = point3(0, 0, 0);
     Settings.vup = vec3(0, 1, 0);
 
-    Settings.defocus_angle = 0.6;
+    Settings.defocus_angle = 0.01;
     Settings.focus_dist = 10.0;
 
     Settings.Threads = 5;
 
     switch (ID) {
     case 2:
-        Settings.defocus_angle = 4;
+        Settings.defocus_angle = 3;
         Settings.focus_dist = 6;
         break;
     case 3:
@@ -71,7 +71,7 @@ void Presets::CreateSmallSpheres(hittable_list& world)
     // 20x5 grid = 100 spheres
     int Zmin = -14;
     int Zmax = Zmin + 20;
-    int Xmin = -2;
+    int Xmin = 0;
     int Xmax = Xmin + 5;
 
     for (int a = Zmin; a < Zmax; a++) {
@@ -82,13 +82,13 @@ void Presets::CreateSmallSpheres(hittable_list& world)
             if ((center - point3(4, radius, 0)).length() > 0.9) {
                 std::shared_ptr<material> sphere_material;
 
-                if (choose_mat < 0.8) {
+                if (choose_mat < 0.94) {
                     // diffuse
                     auto albedo = color::random() * color::random();
                     sphere_material = std::make_shared<lambertian>(albedo);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 }
-                else if (choose_mat < 0.95) {
+                else if (choose_mat < 0.97) {
                     // metal
                     auto albedo = color::random(0.5, 1);
                     auto fuzz = random_double(0, 0.5);
@@ -96,8 +96,8 @@ void Presets::CreateSmallSpheres(hittable_list& world)
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 }
                 else {
-                    // glass
-                    sphere_material = std::make_shared<dielectric>(1.5);
+                    // transparent glass
+                    sphere_material = std::make_shared<dielectric>(1);
                     world.add(make_shared<sphere>(center, 0.2, sphere_material));
                 }
             }
@@ -108,12 +108,13 @@ void Presets::CreateSmallSpheres(hittable_list& world)
 void Presets::CreateBigSpheres(hittable_list& world)
 {
     auto mat_Opaque0 = std::make_shared<lambertian>(color::random());
-    auto mat_Opaque1 = std::make_shared<lambertian>(color::random());
-    auto mat_Glass = std::make_shared<dielectric>(1.5);
+    auto mat_Opaque1 = std::make_shared<lambertian>(color(1, 0.8, 0));
+
+    auto mat_RefractiveGlass = std::make_shared<dielectric>(2);
     auto mat_Metal = std::make_shared<metal>(color(0.7, 0.6, 0.5), 0.0);
 
-    world.add(make_shared<sphere>(point3(-4, 1, 0), 1.0, mat_Opaque0));
-    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, mat_Glass));
+    world.add(make_shared<sphere>(point3(-4, 1.5, -2), 1.5, mat_Opaque0));
+    world.add(make_shared<sphere>(point3(0, 1, 0), 1.0, mat_RefractiveGlass));
     world.add(make_shared<sphere>(point3(4, 1, 0), 1.0, mat_Metal));
     world.add(make_shared<sphere>(point3(8, 1, 0), 1.0, mat_Opaque1));
 }

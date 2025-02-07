@@ -17,6 +17,6 @@
 
 
 int main() {
-    camera cam(Presets::CreateSettings(3));
-    cam.render(Presets::CreateWorld(3));
+    camera cam(Presets::CreateSettings(2));
+    cam.render(Presets::CreateWorld(2));
 }
