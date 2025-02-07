@@ -21,7 +21,7 @@ RenderSettings Presets::CreateSettings(int ID)
     Settings.defocus_angle = 0.01;
     Settings.focus_dist = 10.0;
 
-    Settings.Threads = 5;
+    Settings.Threads = 4;
 
     switch (ID) {
     case 2:

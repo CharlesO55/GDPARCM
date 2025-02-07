@@ -93,7 +93,7 @@ void camera::render(const hittable& world) {
     
     pool->Stop();
 
-    std::clog << "\rDone.                 \n";
+    std::clog << "\rSaved.\n";
     cv::String PNG_filename = "Renders/PNG_Output.png";
     CV_Image->saveImage(PNG_filename);
 }
