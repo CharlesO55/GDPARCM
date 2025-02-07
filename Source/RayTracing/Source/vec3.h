@@ -1,6 +1,6 @@
-#ifndef VEC3_H
-#define VEC3_H
+#pragma once
 
+#include "constants.h"
 
 class vec3 {
 public:
@@ -143,5 +143,3 @@ inline vec3 random_in_unit_disk() {
             return p;
     }
 }
-
-#endif

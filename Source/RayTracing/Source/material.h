@@ -1,6 +1,5 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
-
+#pragma once
+#include "color.h"
 #include "hittable.h"
 
 class material {
@@ -96,4 +95,3 @@ private:
         return r0 + (1 - r0) * std::pow((1 - cosine), 5);
     }
 };
-#endif

@@ -1,11 +1,10 @@
-#ifndef SPHERE_H
-#define SPHERE_H
+#pragma once
 
 #include "hittable.h"
 
 class sphere : public hittable {
 public:
-    sphere(const point3& center, double radius, shared_ptr<material> mat)
+    sphere(const point3& center, double radius, std::shared_ptr<material> mat)
         : center(center), radius(std::fmax(0, radius)), mat(mat) {
     }
 
@@ -42,7 +41,5 @@ public:
 private:
     point3 center;
     double radius;
-    shared_ptr<material> mat;
+    std::shared_ptr<material> mat;
 };
-
-#endif

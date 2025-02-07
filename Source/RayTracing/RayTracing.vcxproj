@@ -134,10 +134,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Presets.cpp" />
+    <ClCompile Include="Source\camera.cpp" />
+    <ClCompile Include="Source\color.cpp" />
+    <ClCompile Include="Source\interval.cpp" />
+    <ClCompile Include="Source\RTThread.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\RTImage.cpp" />
+    <ClCompile Include="Source\ThreadPool.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Presets.h" />
+    <ClInclude Include="Source\RenderSettings.h" />
+    <ClInclude Include="Source\Command.h" />
+    <ClInclude Include="Source\constants.h" />
+    <ClInclude Include="Source\RTThread.h" />
     <ClInclude Include="Source\camera.h" />
     <ClInclude Include="Source\color.h" />
     <ClInclude Include="Source\hittable.h" />
@@ -146,9 +157,10 @@
     <ClInclude Include="Source\material.h" />
     <ClInclude Include="Source\ray.h" />
     <ClInclude Include="Source\RTImage.h" />
-    <ClInclude Include="Source\rtweekend.h" />
+    <ClInclude Include="Source\RTParams.h" />
     <ClInclude Include="Source\sphere.h" />
     <ClInclude Include="Source\vec3.h" />
+    <ClInclude Include="Source\ThreadPool.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
