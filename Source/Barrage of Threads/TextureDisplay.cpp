@@ -25,9 +25,10 @@ void TextureDisplay::update(sf::Time deltaTime)
 	//this->ticks += BaseRunner::TIME_PER_FRAME.asMilliseconds();
 	if (this->streamingType == StreamingType::BATCH_LOAD && !this->startedStreaming && this->ticks > this->STREAMING_LOAD_DELAY)
 	{
+		// Trigger only once
 		this->startedStreaming = true;
 		this->ticks = 0.0f;
-		TextureManager::getInstance()->loadStreamingAssets();
+		TextureManager::getInstance()->loadStreamingAssets(this);
 	}
 	else if (this->streamingType == StreamingType::SINGLE_STREAM && this->ticks > this->STREAMING_LOAD_DELAY)
 	{

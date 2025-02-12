@@ -2,6 +2,8 @@
 #include <unordered_map>
 #include "SFML/Graphics.hpp"
 
+#include "ThreadPool.h"
+
 class IExecutionEvent;
 class TextureManager
 {
@@ -12,8 +14,8 @@ public:
 	
 public:
 	static TextureManager* getInstance();
-	void loadFromAssetList(); //loading of all assets needed for startup
-	void loadStreamingAssets(); //loading of assets during runtime
+	void loadFromAssetList();												//loading of all assets needed for startup
+	void loadStreamingAssets(IExecutionEvent* executionEvent);												//loading of assets during runtime
 	void loadSingleStreamAsset(int index, IExecutionEvent* executionEvent); //loads a single streaming asset based on index in directory
 	sf::Texture* getFromTextureMap(const String assetName, int frameIndex);
 	int getNumFrames(const String assetName);
@@ -42,5 +44,6 @@ private:
 	std::vector<std::string> paths;
 	std::vector<IExecutionEvent*> execs;
 
-	void WaitForBatchLoading();
+	
+	ThreadPool* pool;
 };

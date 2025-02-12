@@ -9,7 +9,7 @@ RenderSettings Presets::CreateSettings(int ID)
 {
     RenderSettings Settings;
     Settings.aspect_ratio = 16.0 / 9.0;
-    Settings.image_width = 1920;
+    Settings.image_width = 400;
     Settings.samples_per_pixel = 300;
     Settings.max_depth = 20;
 

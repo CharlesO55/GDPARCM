@@ -59,13 +59,13 @@ void BaseRunner::run() {
 		processEvents();
 
 		if (DELTA > BaseRunner::TIME_PER_FRAME) {
-			this->fps = 1 / DELTA.asSeconds();
+			this->fps = std::ceil(1 / DELTA.asSeconds());
 			
 			//update(sf::seconds(1.0f / this->fps));
 			update(DELTA);
 			DELTA = DELTA.Zero;
+			render();
 		}
-		render();
 	}
 
 }

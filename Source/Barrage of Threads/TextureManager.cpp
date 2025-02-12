@@ -22,6 +22,9 @@ TextureManager* TextureManager::getInstance() {
 TextureManager::TextureManager()
 {
 	this->countStreamingAssets();
+
+	this->pool = new ThreadPool(5);
+	pool->startSchedule();
 }
 
 void TextureManager::loadFromAssetList()
@@ -39,8 +42,12 @@ void TextureManager::loadFromAssetList()
 	}
 }
 
-void TextureManager::loadStreamingAssets()
-{	
+void TextureManager::loadStreamingAssets(IExecutionEvent* executionEvent)
+{
+	// STOP FIRST
+	pool->stopSchedule();
+
+	int index = 0;
 	for (const auto& entry : std::filesystem::directory_iterator(STREAMING_PATH)) {
 		//simulate loading of very large file
 		//IETThread::sleep(200);
@@ -50,8 +57,15 @@ void TextureManager::loadStreamingAssets()
 		String assetName = StringUtils::split(tokens[tokens.size() - 1], '.')[0];	
 		this->instantiateAsTexture(path, assetName, true);
 		
+		// SAME AS SINGLE BUT WE POOL THEM ALL TOGETHER FIRST
+		StreamAssetLoader* assetLoader = new StreamAssetLoader(path, executionEvent, index);
+		pool->scheduleTask(assetLoader);
+		index++;
 		//std::cout << "[TextureManager] Loaded streaming texture: " << assetName << std::endl;
 	}
+
+	// RESTART
+	pool->startSchedule();
 }
 
 void TextureManager::loadSingleStreamAsset(int index, IExecutionEvent* executionEvent)
@@ -64,12 +78,14 @@ void TextureManager::loadSingleStreamAsset(int index, IExecutionEvent* execution
 			String path = entry.path().generic_string();
 			
 			StreamAssetLoader* assetLoader = new StreamAssetLoader(path, executionEvent, index);
-			assetLoader->start();
+			//assetLoader->start();
 
 			// TRY TO LAG MAIN THREAD'S BaseRunner::Render()
-			if (10 == (rand() % 10 + 1)) {
+			/*if (10 == (rand() % 10 + 1)) {
 				IETThread::sleep(1000);
-			}
+			}*/
+
+			pool->scheduleTask(assetLoader);
 
 			break;
 		}
