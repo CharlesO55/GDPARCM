@@ -1,10 +1,10 @@
 #pragma once
-#include "IETThread.h"
+#include "StreamAssetLoader.h"
 
-
+#include <vector>
 #include <mutex>
 #include <queue>
-//class IWorkerAction;
+
 class IFinishedTask {
 	virtual void onFinished(int threadID) = 0;
 };
@@ -12,12 +12,13 @@ class IFinishedTask {
 class ThreadPool : public IETThread//, public IFinishedTask
 {
 private:
-	std::queue<IETThread*> waitingQueue;
-	bool isRunning = false;
-
-	int nWorkers;
-
+	std::vector<StreamAssetLoader*> workers;
+	std::queue<StreamAssetLoader*> waitingQueue;
+	
 	std::mutex queueLock;
+	
+	int nWorkers;
+	int FindInactiveSlot();
 
 public:
 	ThreadPool(int nWorkers);
@@ -25,7 +26,7 @@ public:
 
 	void startSchedule();
 	void stopSchedule();
-	void scheduleTask(IETThread* action);
+	void scheduleTask(StreamAssetLoader* action);
 
 	void run() override;
 };

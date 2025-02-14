@@ -23,7 +23,7 @@ TextureManager::TextureManager()
 {
 	this->countStreamingAssets();
 
-	this->pool = new ThreadPool(5);
+	this->pool = new ThreadPool(150);
 	pool->startSchedule();
 }
 
@@ -78,13 +78,6 @@ void TextureManager::loadSingleStreamAsset(int index, IExecutionEvent* execution
 			String path = entry.path().generic_string();
 			
 			StreamAssetLoader* assetLoader = new StreamAssetLoader(path, executionEvent, index);
-			//assetLoader->start();
-
-			// TRY TO LAG MAIN THREAD'S BaseRunner::Render()
-			/*if (10 == (rand() % 10 + 1)) {
-				IETThread::sleep(1000);
-			}*/
-
 			pool->scheduleTask(assetLoader);
 
 			break;
