@@ -3,6 +3,7 @@
 
 #include <semaphore>
 
+
 class Window
 {
 	sf::RenderWindow* m_Window;
@@ -18,8 +19,8 @@ class Window
 	float deltaTime;
 
 	std::vector<sf::Sprite> sprites;
+	sf::Sprite mainScreen;
 
-	std::semaphore updatePermits(3);
 
 private:
 	bool completeLoading = false;
@@ -28,7 +29,8 @@ private:
 	void ListenInput();
 	void Render();
 
-	void UpdatePanelAsync(int i /*,sf::Sprite* s*/);
+	void UpdatePanelAsync(int i);
+	void UpdateMainPanelAsync();
 
 public:
 	void InitFPS(const int targetFPS = 30);

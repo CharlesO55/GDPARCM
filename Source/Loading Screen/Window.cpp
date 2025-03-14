@@ -6,6 +6,10 @@
 
 #include <thread>
 
+const int MAX_PERMITS = 6;
+
+std::counting_semaphore<MAX_PERMITS> updatePermits(MAX_PERMITS);  // Correct declaration of counting_semaphore
+
 Window::Window()
 {
 }
@@ -37,7 +41,6 @@ void Window::InitFPS(const int targetFPS)
     fpsText.setFillColor(sf::Color::White);
     fpsText.setPosition(10.f, 10.f);
     fpsText.setOutlineColor(sf::Color::Black);
-    
 }
 
 void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
@@ -52,16 +55,36 @@ void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
         for (int y = 0; y < splits.y; y++) {
             sf::Sprite s;
             s.setPosition(xDimension * x, yDimension * y);
+            //s.setPosition(size.x, yDimension * y);
             sprites.push_back(s);
+
+
+
+            // Get original texture dimensions
+            float originalWidth = 854;
+            float originalHeight = 480;
+
+            // Calculate the new width while keeping the aspect ratio intact
+            float newHeight = 360.0f; // The target height (360p)
+            float aspectRatio = originalWidth / originalHeight;
+            float newWidth = newHeight * aspectRatio;
+
+            // Scale the sprite to the new dimensions
+            s.setScale(newWidth / originalWidth, newHeight / originalHeight);
         }
     }
+
+
+
 
 
     statusText.setFont(AssetLibrary::Get()->Font);
     statusText.setCharacterSize(30);
     statusText.setFillColor(sf::Color::White);
-    statusText.setPosition(size.x / 2, size.y * 0.85);
+    statusText.setPosition(size.x / 3, size.y * 0.85);
     statusText.setOutlineColor(sf::Color::Black);
+
+    mainScreen.setPosition(0,0);
 }
 
 void Window::OnScreenReady()
@@ -76,9 +99,12 @@ void Window::OnScreenReady()
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
-    statusText.setPosition(-100, -100);
+
+    statusText.setString("Pootis Engage - Cen0 & DanDaDan parody - annaberu");
     MusicManager::Get()->StopMusic(MusicManager::Get()->BGM_Loading);
-    MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Finish, false);
+    MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Finish, true);
+    
+    std::thread(&Window::UpdateMainPanelAsync, this).detach();
 }
 
 
@@ -125,21 +151,55 @@ void Window::UpdatePanelAsync(int i)
 
 
     // ANIMATES AT 30 FPS
-    while (m_Window->isOpen()) {
+    while (m_Window->isOpen() && !completeLoading) {
         if (animationClock.getElapsedTime().asSeconds() > VIDEO_FPS) {
+
+            // STOP UPDATING WHEN PERMIT LIMIT IS REACHED
+            if (frame == 0)
+                updatePermits.acquire();
+
             animationClock.restart();
             // LOCK IS CALLED BY VIDEO MANAGER
             sf::Texture* tex = VideoManager::Get()->TryGetFrame(i, &frame);
             if (tex)
                 sprites[i].setTexture(*tex);
 
-            sprites[i].move(sf::Vector2f(-10, 0));
-            if (sprites[i].getPosition().x < -100) {
+            /*sprites[i].move(sf::Vector2f(-10, 0));
+            if (sprites[i].getPosition().x < -400) {
                 sprites[i].setPosition(originalPos);
+            }*/
+
+            // ON ANIM FINISH, LET OTHERS HAVE A CHANCE 
+            if (frame == 0) {
+                updatePermits.release();
+                std::cout << "Sleep";
+                std::this_thread::sleep_for(std::chrono::seconds(2));
             }
         }
     }
 }
+
+void Window::UpdateMainPanelAsync()
+{
+    int frame = 0;
+    sf::Clock animationClock;
+    float animationDeltaTime = 0;
+
+
+    // ANIMATES AT 30 FPS
+    while (m_Window->isOpen()) {
+        if (animationClock.getElapsedTime().asSeconds() > VIDEO_FPS) {
+            animationClock.restart();
+
+            // LOCK IS CALLED BY VIDEO MANAGER
+            sf::Texture* tex = VideoManager::Get()->TryGetFrame(VideoManager::Get()->TotalSequences - 1, &frame);
+            if (tex)
+                mainScreen.setTexture(*tex);
+        }
+    }
+}
+
+
 
 void Window::Render()
 {
@@ -152,7 +212,7 @@ void Window::Render()
         }
     }
     else {
-        m_Window->draw(sprites.back());
+        m_Window->draw(mainScreen);
     }
 
     m_Window->draw(fpsText);

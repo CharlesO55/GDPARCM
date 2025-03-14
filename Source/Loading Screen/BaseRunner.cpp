@@ -14,7 +14,7 @@ void BaseRunner::Start()
     MusicManager::Get()->LoadAllMusic();
     VideoManager::Get()->RunAsync();
 
-    MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Loading, false);
+    MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Loading, true);
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     Window mainWindow;
