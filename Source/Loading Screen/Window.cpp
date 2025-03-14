@@ -6,7 +6,7 @@
 
 #include <thread>
 
-const int MAX_PERMITS = 6;
+const int MAX_PERMITS = 7;
 
 std::counting_semaphore<MAX_PERMITS> updatePermits(MAX_PERMITS);  // Correct declaration of counting_semaphore
 
@@ -45,7 +45,7 @@ void Window::InitFPS(const int targetFPS)
 
 void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
 {
-    m_Window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), "Pootis Engage");
+    m_Window = new sf::RenderWindow(sf::VideoMode(size.x, size.y), "Pootis Engage (60fps render, 30fps animate) ");
 
     const int xDimension = size.x / splits.x;
     const int yDimension = size.y / splits.y;
@@ -56,7 +56,6 @@ void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
             s.setPosition(xDimension * x, yDimension * y);
             s.setScale(0.5f, 0.5f);
             sprites.push_back(s);
-
         }
     }
 
@@ -65,7 +64,7 @@ void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
     statusText.setFillColor(sf::Color::White);
     statusText.setPosition(size.x / 3, size.y * 0.85);
     statusText.setOutlineColor(sf::Color::Black);
-
+    
     mainScreen = new sf::Sprite();
     mainScreen->setPosition(0,0);
 }
@@ -84,6 +83,7 @@ void Window::OnScreenReady()
 
 
     statusText.setString("Pootis Engage - Cen0 & DanDaDan parody - annaberu");
+
     MusicManager::Get()->StopMusic(MusicManager::Get()->BGM_Loading);
     MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Finish, true);
 
@@ -110,8 +110,19 @@ void Window::Run()
 
     std::thread(&Window::OnScreenReady, this).detach();
     
-    for (int i = 0; i < sprites.size(); i++) {
+    // ADD SOME MORE BIG ONES
+    int bigPanels = 2;
+    for (int i = 0; i < bigPanels; i++) {
+        sprites.push_back(sf::Sprite());
+        sprites.back().setPosition(1920, 1080/2 * i);
+    }
+
+    for (int i = 0; i < sprites.size() - bigPanels ; i++) {
         std::thread(&Window::UpdatePanelAsync, this, i).detach();
+    }
+
+    for (int i = 1; i <= bigPanels; i++) {
+        std::thread(&Window::UpdateBigPanelAsync, this, sprites.size() - i).detach();
     }
 
     while (m_Window->isOpen()) {
@@ -124,29 +135,26 @@ void Window::Run()
 }
 
 
-void Window::UpdatePanelAsync(int i)
+void Window::UpdatePanelAsync(int index)
 {
-    sf::Vector2f originalPos = sprites[i].getPosition();
-    originalPos.x += 100;
-
     int frame = 1;
     sf::Clock animationClock;
     float animationDeltaTime = 0;
-
 
     // ANIMATES AT 30 FPS
     while (m_Window->isOpen() && !completeLoading) {
         if (animationClock.getElapsedTime().asSeconds() > VIDEO_FPS) {
 
             // STOP UPDATING WHEN PERMIT LIMIT IS REACHED
-            if (frame == 1)
+            if (frame == 1) {
                 updatePermits.acquire();
+            }
 
             animationClock.restart();
             // LOCK IS CALLED BY VIDEO MANAGER
-            sf::Texture* tex = VideoManager::Get()->TryGetFrame(i, &frame);
+            sf::Texture* tex = VideoManager::Get()->TryGetFrame(index, &frame);
             if (tex) {
-                sprites[i].setTexture(*tex);
+                sprites[index].setTexture(*tex);
                 frame++;
             }
 
@@ -155,6 +163,48 @@ void Window::UpdatePanelAsync(int i)
             }
         }
     }
+}
+
+void Window::UpdateBigPanelAsync(int index)
+{
+    sf::Vector2f originalPos = sprites[index].getPosition();
+
+    int frame = 1;
+    sf::Clock animationClock;
+    float animationDeltaTime = 0;
+
+    int permitsReq = 2;
+
+    // ANIMATES AT 30 FPS
+    while (m_Window->isOpen() && !completeLoading) {
+        if (animationClock.getElapsedTime().asSeconds() > VIDEO_FPS) {
+            sf::Vector2f pos = sprites[index].getPosition();
+
+            // STOP UPDATING WHEN PERMIT LIMIT IS REACHED
+            if (originalPos.x == pos.x) {
+                for (int i = 0; i < permitsReq; i++) {
+                    updatePermits.acquire();
+                }
+            }
+
+            animationClock.restart();
+            // LOCK IS CALLED BY VIDEO MANAGER
+            sf::Texture* tex = VideoManager::Get()->TryGetFrame(index, &frame);
+            if (tex) {
+                sprites[index].setTexture(*tex);
+                frame++;
+            }
+
+            if (sprites[index].getPosition().x < -800) {
+                updatePermits.release(permitsReq);
+                sprites[index].setPosition(originalPos);
+            }
+            else {
+                sprites[index].move(-20, 0);
+            }
+        }
+    }
+
 }
 
 void Window::UpdateMainPanelAsync()

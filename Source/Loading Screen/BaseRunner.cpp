@@ -21,10 +21,12 @@ void BaseRunner::Start()
 
 
     mainWindow.InitWindow(sf::Vector2i(1920, 1080), sf::Vector2i(4, 4));
-    mainWindow.InitFPS(24);
+    mainWindow.InitFPS(30);
     mainWindow.Run();
 
     VideoManager::Get()->Destroy();
     MusicManager::Get()->Destroy();
     AssetLibrary::Get()->Destroy();
+
+    std::cout << "Closed";
 }

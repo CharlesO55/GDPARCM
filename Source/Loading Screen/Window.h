@@ -30,6 +30,7 @@ private:
 	void Render();
 
 	void UpdatePanelAsync(int i);
+	void UpdateBigPanelAsync(int i);
 	void UpdateMainPanelAsync();
 
 public:
