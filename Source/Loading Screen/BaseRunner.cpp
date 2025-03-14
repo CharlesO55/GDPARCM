@@ -15,14 +15,13 @@ void BaseRunner::Start()
     VideoManager::Get()->RunAsync();
 
     MusicManager::Get()->PlayMusic(MusicManager::Get()->BGM_Loading, false);
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
     Window mainWindow;
 
-    const int HEIGHT = sf::VideoMode::getDesktopMode().height;
-    const int WIDTH = sf::VideoMode::getDesktopMode().width;
 
-    mainWindow.InitWindow(sf::Vector2i(WIDTH/2, HEIGHT/2), sf::Vector2i(4, 4));
-    mainWindow.InitFPS(2);
+    mainWindow.InitWindow(sf::Vector2i(1920, 1080), sf::Vector2i(3, 3));
+    mainWindow.InitFPS(24);
     mainWindow.Run();
 
     VideoManager::Get()->Destroy();

@@ -46,6 +46,12 @@ void MusicManager::LoadAllMusic()
     LoadMusic(BGM_Finish);
 }
 
+void MusicManager::StopMusic(const std::string& filename)
+{
+    if (table.contains(filename)) 
+        table[filename]->stop();
+}
+
 void MusicManager::PlayMusic(const std::string& filename, bool loop)
 {
     if (table.contains(filename)) {

@@ -50,29 +50,36 @@ void VideoManager::RunAsync()
 
 void VideoManager::LoadAllFolders()
 {
-    for (int key = 0; key < 50; key++) {
-        VideoManager::sequenceLocks[key].lock();
+    for (const auto& folder : std::filesystem::directory_iterator(FOLDER)) {
+        VideoManager::sequenceLocks[TotalSequences].lock();
+        TotalSequences++;
     }
 
     int i = 0;
     for (const auto& folder : std::filesystem::directory_iterator(FOLDER)) {
-        LoadFrames(i, folder.path().string());
-        i++;
+        
+        if (folder.path().filename() != "Load") {
+            LoadFrames(i, folder.path().string());
+            i++;
+        }
     }
+
+    LoadFrames(TotalSequences-1, FOLDER + "Load");
 }
 
 void VideoManager::LoadFrames(int key, const std::string& folderPath)
 {
+    std::cout << folderPath << std::endl;
     std::vector<sf::Texture*> textures;
 
     for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
-        sf::Texture* texture = new sf::Texture();  // Dynamically allocate
+        sf::Texture* texture = new sf::Texture();  
         if (texture->loadFromFile(entry.path().string())) {
            textures.push_back(texture);
         }
         else {
             std::cerr << "Failed to load: " << entry.path() << std::endl;
-            delete texture;  // Prevent memory leak on failure
+            delete texture;  
         }
     }
 

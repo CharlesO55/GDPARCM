@@ -1,10 +1,13 @@
 #pragma once
 #include "Dependencies.h"
 
+#include <semaphore>
+
 class Window
 {
 	sf::RenderWindow* m_Window;
 	sf::Text fpsText;
+	sf::Text statusText;
 	sf::Texture* refTex;
 
 	sf::Clock clock;
@@ -16,9 +19,11 @@ class Window
 
 	std::vector<sf::Sprite> sprites;
 
-	
+	std::semaphore updatePermits(3);
 
 private:
+	bool completeLoading = false;
+
 	bool CanUpdate();
 	void ListenInput();
 	void Render();

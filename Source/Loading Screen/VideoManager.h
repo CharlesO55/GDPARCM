@@ -4,7 +4,6 @@
 #include <map>
 #include <mutex>
 
-
 class VideoManager
 {
 private:
@@ -33,4 +32,6 @@ public:
 
 	sf::Texture* TryGetFrame(int ID, int* frame);
 	static std::map<int, std::mutex> sequenceLocks;
+
+	int TotalSequences = 0;
 };

@@ -4,8 +4,8 @@
 class MusicManager
 {
 public:
-	const std::string BGM_Loading = "Menace.wav";
-	const std::string BGM_Finish = "killdeer.wav";
+	const std::string BGM_Loading = "Absolute Territory.wav";
+	const std::string BGM_Finish = "DanDaDan.wav";
 
 private:
 	const std::string FOLDER = "Resources/Audio/";
@@ -29,6 +29,7 @@ public:
 	
 	
 	void LoadAllMusic();
+	void StopMusic(const std::string& filename);
 	void PlayMusic(const std::string& filename, bool loop);
 
 
