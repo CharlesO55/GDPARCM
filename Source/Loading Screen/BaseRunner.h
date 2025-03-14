@@ -11,7 +11,6 @@ class BaseRunner
 	int frameCount = 0;
 	float fps = 0.0f;
 
-	void CalcFPS();
 
 public:
 	void Start();

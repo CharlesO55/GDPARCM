@@ -10,7 +10,6 @@ class AssetLibrary
 	AssetLibrary(const AssetLibrary&) = delete;
 	AssetLibrary& operator=(const AssetLibrary&) = delete;
 
-	void LoadFont();
 
 
 public:
@@ -18,5 +17,6 @@ public:
 	void Destroy();
 
 	
+	void LoadFont();
 	sf::Font Font;
 };

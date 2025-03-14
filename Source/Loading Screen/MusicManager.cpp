@@ -1,11 +1,11 @@
 #include "MusicManager.h"
 
-MusicManager* MusicManager::i = NULL;
+MusicManager* MusicManager::i = nullptr;
 
 
 MusicManager::MusicManager()
 {
-    LoadAllMusic();
+    std::cout << "Created MusicManager\n";
 }
 
 void MusicManager::Destroy()
@@ -21,7 +21,7 @@ void MusicManager::Destroy()
 
 MusicManager* MusicManager::Get()
 {
-	if (i == NULL)
+	if (i == nullptr)
 		i = new MusicManager();
 
 	return i;

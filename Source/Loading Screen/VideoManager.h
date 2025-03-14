@@ -1,13 +1,21 @@
 #pragma once
-#include "Dependencies.h"
+//#include "Dependencies.h"
+#include <SFML/Graphics.hpp>
+#include <map>
+#include <mutex>
+
 
 class VideoManager
 {
 private:
 	const std::string FOLDER = "Resources/Images/";
 
+	std::map<int, std::vector<sf::Texture*>> table;
+
 
 	static VideoManager* i;
+	
+
 
 	VideoManager();
 	VideoManager(const VideoManager&) = delete;
@@ -15,15 +23,14 @@ private:
 
 
 private:
-	void LoadAllFolders();
 	void LoadFrames(int i, const std::string& folderPath);
+	void LoadAllFolders();
 
 public:
-	std::map<int, std::vector<sf::Texture>> table;
 	static VideoManager* Get();
 	void Destroy();
+	void RunAsync();
 
-	const std::vector<sf::Texture>& GetFrames(int i);
-	
-	const bool TryGetFrame(int ID, int* frame, sf::Texture& output);
+	sf::Texture* TryGetFrame(int ID, int* frame);
+	static std::map<int, std::mutex> sequenceLocks;
 };

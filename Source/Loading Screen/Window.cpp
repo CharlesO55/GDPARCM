@@ -5,6 +5,15 @@
 
 #include <thread>
 
+Window::Window()
+{
+}
+
+Window::~Window()
+{
+    delete m_Window;
+}
+
 bool Window::CanUpdate()
 {
     deltaTime += clock.restart().asSeconds();
@@ -20,7 +29,7 @@ bool Window::CanUpdate()
 
 void Window::InitFPS(const int targetFPS)
 {
-    UPDATE_FPS = 1.f / targetFPS;
+    VIDEO_FPS = 1.f / targetFPS;
 
     fpsText.setFont(AssetLibrary::Get()->Font);
     fpsText.setCharacterSize(24);
@@ -46,8 +55,14 @@ void Window::InitWindow(const sf::Vector2i& size, const sf::Vector2i& splits)
     }
 }
 
+void Window::OnScreenReady()
+{
+    VideoManager::sequenceLocks[0].lock();
+    std::cout << "LOADDDED";
+    VideoManager::sequenceLocks[0].unlock();
+}
 
-    //s->setTextureRect(sf::IntRect(pos.x, pos.y, 100, 100));
+
 void Window::ListenInput()
 {
     sf::Event event;
@@ -57,29 +72,39 @@ void Window::ListenInput()
     }
 }
 
-Window::Window()
-{
-}
-
-Window::~Window()
-{
-    delete m_Window;
-}
 
 void Window::Run()
 {
+    std::thread(&Window::OnScreenReady, this).detach();
+    for (int i = 0; i < sprites.size(); i++) {
+        std::thread(&Window::UpdatePanelAsync, this, i/*, std::ref(sprites[i])*/).detach();
+    }
+
     while (m_Window->isOpen()) {
-        ListenInput();  // move listen
-
-        /*if (CanUpdate()) {
-            if (VideoManager::Get()->TryGetFrame(0, &frame, refTex)) {
-                for (sf::Sprite& s : sprites) {
-                    s.setTexture(refTex);
-                }
-            }
-
+        ListenInput();  
+        // RENDERS AT 60 FPS
+        if (CanUpdate()) {
             Render();
-        }*/
+        }
+    }
+}
+
+
+void Window::UpdatePanelAsync(int i)
+{
+    int frame = 0;
+    sf::Clock animationClock;
+    float animationDeltaTime = 0;
+
+    // ANIMATES AT 30 FPS
+    while (m_Window->isOpen()) {
+        if (animationClock.getElapsedTime().asSeconds() > VIDEO_FPS) {
+            animationClock.restart();
+            // LOCK IS CALLED BY VIDEO MANAGER
+            sf::Texture* tex = VideoManager::Get()->TryGetFrame(i, &frame);
+            if (tex)
+                sprites[i].setTexture(*tex);
+        }
     }
 }
 
@@ -88,16 +113,11 @@ void Window::Render()
     m_Window->setActive(true);
     m_Window->clear(sf::Color::Black);
     
-    m_Window->draw(fpsText);
 
     for (const sf::Sprite s : sprites) {
         m_Window->draw(s);
     }
 
+    m_Window->draw(fpsText);
     m_Window->display();
-}
-
-void Window::UpdatePanel()
-{
-
 }

@@ -22,13 +22,13 @@ private:
 
 private:
 	void LoadMusic(const std::string& filename);
-	void LoadAllMusic();
 
 public:
 	static MusicManager* Get();
 	void Destroy();
 	
 	
+	void LoadAllMusic();
 	void PlayMusic(const std::string& filename, bool loop);
 
 

@@ -1,11 +1,11 @@
 #include "AssetLibrary.h"
 
-AssetLibrary* AssetLibrary::i = NULL;
+AssetLibrary* AssetLibrary::i = nullptr;
 
 
 AssetLibrary::AssetLibrary()
 {
-	LoadFont();
+	std::cout << "Created AssetLibrary\n";
 }
 
 void AssetLibrary::LoadFont()
@@ -18,7 +18,7 @@ void AssetLibrary::LoadFont()
 
 AssetLibrary* AssetLibrary::Get()
 {
-	if (i == NULL)
+	if (i == nullptr)
 		i = new AssetLibrary();
 
 	return i;
