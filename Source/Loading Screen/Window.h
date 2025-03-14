@@ -19,7 +19,7 @@ class Window
 	float deltaTime;
 
 	std::vector<sf::Sprite> sprites;
-	sf::Sprite mainScreen;
+	sf::Sprite* mainScreen;
 
 
 private:

@@ -36,9 +36,6 @@ sf::Texture* VideoManager::TryGetFrame(int ID, int* frame)
 
 
     sf::Texture* output = table[ID].at(*frame);
-    *frame += 1;
-
-
     return output;
 }
 

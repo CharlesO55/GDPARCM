@@ -20,7 +20,7 @@ void BaseRunner::Start()
     Window mainWindow;
 
 
-    mainWindow.InitWindow(sf::Vector2i(1920, 1080), sf::Vector2i(3, 3));
+    mainWindow.InitWindow(sf::Vector2i(1920, 1080), sf::Vector2i(4, 4));
     mainWindow.InitFPS(24);
     mainWindow.Run();
 
