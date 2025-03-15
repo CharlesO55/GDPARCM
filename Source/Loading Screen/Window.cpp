@@ -6,9 +6,9 @@
 
 #include <thread>
 
-const int MAX_PERMITS = 7;
+const int MAX_PERMITS = 6;
 
-std::counting_semaphore<MAX_PERMITS> updatePermits(MAX_PERMITS);  // Correct declaration of counting_semaphore
+std::counting_semaphore<MAX_PERMITS> updatePermits(MAX_PERMITS);  
 
 Window::Window()
 {
@@ -16,6 +16,7 @@ Window::Window()
 
 Window::~Window()
 {
+    delete mainScreen;
     delete m_Window;
 }
 
@@ -173,7 +174,7 @@ void Window::UpdateBigPanelAsync(int index)
     sf::Clock animationClock;
     float animationDeltaTime = 0;
 
-    int permitsReq = 2;
+    int permitsReq = 1;
 
     // ANIMATES AT 30 FPS
     while (m_Window->isOpen() && !completeLoading) {
@@ -236,7 +237,7 @@ void Window::Render()
     m_Window->clear(sf::Color::Black);
     
     if (!completeLoading) {
-        for (const sf::Sprite s : sprites) {
+        for (const sf::Sprite& s : sprites) {
             m_Window->draw(s);
         }
     }
