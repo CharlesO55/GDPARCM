@@ -16,6 +16,8 @@ grpc::Status GreeterServer::SayHello(grpc::ServerContext* context, const HelloRe
 grpc::Status GreeterServer::SayHelloAgain(grpc::ServerContext* context, const HelloRequest* request,
 	HelloReply* response)
 {
+	
+
 	std::string prefix("Hello again! ");
 	response->set_message(prefix + request->name());
 	return grpc::Status::OK;
