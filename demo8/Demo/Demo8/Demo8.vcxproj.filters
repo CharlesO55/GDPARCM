@@ -15,26 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="proto_compile.sh" />
-    <None Include="helloworld.proto" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="GreeterClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GreeterServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="helloworld.grpc.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="helloworld.pb.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IETThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Proto\helloworld.grpc.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Proto\helloworld.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,13 +41,13 @@
     <ClInclude Include="GreeterServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="helloworld.grpc.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="helloworld.pb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IETThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Proto\helloworld.grpc.pb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Proto\helloworld.pb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

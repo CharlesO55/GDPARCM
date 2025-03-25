@@ -8,18 +8,16 @@
 
 grpc::Status GreeterServer::SayHello(grpc::ServerContext* context, const HelloRequest* request, HelloReply* response)
 {
-	std::string prefix("Hello first time! ");
-	response->set_message(prefix + request->name());
+	std::string suffix(" ] Entered the chat.");
+	response->set_message("[" + request->name() + suffix);
 	return grpc::Status::OK;
 }
 
 grpc::Status GreeterServer::SayHelloAgain(grpc::ServerContext* context, const HelloRequest* request,
 	HelloReply* response)
 {
-	
 
-	std::string prefix("Hello again! ");
-	response->set_message(prefix + request->name());
+	response->set_message("[" + request->name() + "] " + request->chat_msg());
 	return grpc::Status::OK;
 }
 

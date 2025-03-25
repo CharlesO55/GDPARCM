@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message SceneRequest{
+	// Folder name in Server machine.
+	// Scene name in Client.
+	string sceneName = 1;
+}
+
+message FileChunkReply {
+	string objFilename = 1;
+	bytes chunk1024 = 2;    // 1024 byte chunks. Adjust for larger if unsuitable.
+	int32 chunkOrder = 3;   // For stitching back together
+	int32 chunkTotal = 4;     // Completeness check
+}
+
+service SceneStreamer{
+	rpc SendSceneRequest(SceneRequest)  returns (stream FileChunkReply);
+}

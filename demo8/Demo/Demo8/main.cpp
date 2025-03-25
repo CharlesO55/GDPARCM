@@ -18,11 +18,7 @@ int main()
     //run the client
     //GreeterClient::runClient();
 
-    /*std::thread t(["John", 2]() {
-        GreeterClient::runClientLooped("John", 2);
-        });*/
-
-
+    
     struct Data {
     public :
         std::string name;        
@@ -35,12 +31,12 @@ int main()
 
 
     std::vector<Data> users = {
+        Data("Charles", 8, "Sir, di gumagana yung gRPC"),
         Data("John", 3, "Chill tayo"),
         Data("Spammer", 10, "Spam mo lang"),
         Data("Jenny", 2, "Two twice"),
         Data("Simon", 6, "Your number one fan!!!"),
         Data("Loki", 6, "Your number one fan!!!"),
-        Data("Charles", 8, "Sir, di gumagana yung CMake"),
         Data("Melly", 7, "Make it stop"),
         Data("Mike", 5, "Magic mik'n"),
         Data("Po", 9, "Kung fu panda"),

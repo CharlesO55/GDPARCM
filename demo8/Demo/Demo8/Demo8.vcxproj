@@ -128,23 +128,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="helloworld.proto" />
-    <None Include="proto_compile.sh" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="GreeterClient.cpp" />
     <ClCompile Include="GreeterServer.cpp" />
-    <ClCompile Include="helloworld.grpc.pb.cc" />
-    <ClCompile Include="helloworld.pb.cc" />
     <ClCompile Include="IETThread.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Proto\helloworld.grpc.pb.cc" />
+    <ClCompile Include="Proto\helloworld.pb.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GreeterClient.h" />
     <ClInclude Include="GreeterServer.h" />
-    <ClInclude Include="helloworld.grpc.pb.h" />
-    <ClInclude Include="helloworld.pb.h" />
     <ClInclude Include="IETThread.h" />
+    <ClInclude Include="Proto\helloworld.grpc.pb.h" />
+    <ClInclude Include="Proto\helloworld.pb.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

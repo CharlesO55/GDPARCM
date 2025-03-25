@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "helloworld.grpc.pb.h"
+#include "Proto/helloworld.grpc.pb.h"
 
 using grpc::Channel;
 using grpc::ClientContext;

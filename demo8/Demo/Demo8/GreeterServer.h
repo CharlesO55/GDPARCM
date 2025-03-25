@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
-#include "helloworld.pb.h"
-#include "helloworld.grpc.pb.h"
+#include "Proto/helloworld.pb.h"
+#include "Proto/helloworld.grpc.pb.h"
 #include "IETThread.h"
 
 class GreeterServer final : public Greeter::Service, public IETThread  {

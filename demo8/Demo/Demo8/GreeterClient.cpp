@@ -12,6 +12,7 @@ std::string GreeterClient::SayHello(const std::string& user)
     // Follows the same pattern as SayHello.
     HelloRequest request;
     request.set_name(user);
+
     HelloReply reply;
     grpc::ClientContext context;
 
@@ -36,6 +37,8 @@ std::string GreeterClient::SayHelloAgain(const std::string& user, const std::str
     // Follows the same pattern as SayHello.
     HelloRequest request;
     request.set_name(user);
+    request.set_chat_msg(message);
+
     HelloReply reply;
     grpc::ClientContext context;
 

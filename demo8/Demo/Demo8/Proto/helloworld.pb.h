@@ -215,6 +215,7 @@ class HelloRequest final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kNameFieldNumber = 1,
+    kChatMsgFieldNumber = 2,
   };
   // string name = 1;
   void clear_name() ;
@@ -232,13 +233,29 @@ class HelloRequest final : public ::google::protobuf::Message
   std::string* _internal_mutable_name();
 
   public:
+  // string chat_msg = 2;
+  void clear_chat_msg() ;
+  const std::string& chat_msg() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_chat_msg(Arg_&& arg, Args_... args);
+  std::string* mutable_chat_msg();
+  PROTOBUF_NODISCARD std::string* release_chat_msg();
+  void set_allocated_chat_msg(std::string* value);
+
+  private:
+  const std::string& _internal_chat_msg() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_chat_msg(
+      const std::string& value);
+  std::string* _internal_mutable_chat_msg();
+
+  public:
   // @@protoc_insertion_point(class_scope:HelloRequest)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 1, 0,
-      25, 2>
+      1, 2, 0,
+      33, 2>
       _table_;
 
   friend class ::google::protobuf::MessageLite;
@@ -256,6 +273,7 @@ class HelloRequest final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena, const Impl_& from,
                           const HelloRequest& from_msg);
     ::google::protobuf::internal::ArenaStringPtr name_;
+    ::google::protobuf::internal::ArenaStringPtr chat_msg_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -521,6 +539,54 @@ inline void HelloRequest::set_allocated_name(std::string* value) {
     _impl_.name_.Set("", GetArena());
   }
   // @@protoc_insertion_point(field_set_allocated:HelloRequest.name)
+}
+
+// string chat_msg = 2;
+inline void HelloRequest::clear_chat_msg() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.chat_msg_.ClearToEmpty();
+}
+inline const std::string& HelloRequest::chat_msg() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:HelloRequest.chat_msg)
+  return _internal_chat_msg();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void HelloRequest::set_chat_msg(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.chat_msg_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:HelloRequest.chat_msg)
+}
+inline std::string* HelloRequest::mutable_chat_msg() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_chat_msg();
+  // @@protoc_insertion_point(field_mutable:HelloRequest.chat_msg)
+  return _s;
+}
+inline const std::string& HelloRequest::_internal_chat_msg() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.chat_msg_.Get();
+}
+inline void HelloRequest::_internal_set_chat_msg(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.chat_msg_.Set(value, GetArena());
+}
+inline std::string* HelloRequest::_internal_mutable_chat_msg() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _impl_.chat_msg_.Mutable( GetArena());
+}
+inline std::string* HelloRequest::release_chat_msg() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:HelloRequest.chat_msg)
+  return _impl_.chat_msg_.Release();
+}
+inline void HelloRequest::set_allocated_chat_msg(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.chat_msg_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.chat_msg_.IsDefault()) {
+    _impl_.chat_msg_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:HelloRequest.chat_msg)
 }
 
 // -------------------------------------------------------------------

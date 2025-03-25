@@ -30,6 +30,9 @@ inline constexpr HelloRequest::Impl_::Impl_(
       : name_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
+        chat_msg_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
         _cached_size_{0} {}
 
 template <typename>
@@ -94,6 +97,7 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::HelloRequest, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::HelloRequest, _impl_.chat_msg_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::HelloReply, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -108,7 +112,7 @@ const ::uint32_t
 static const ::_pbi::MigrationSchema
     schemas[] ABSL_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::HelloRequest)},
-        {9, -1, -1, sizeof(::HelloReply)},
+        {10, -1, -1, sizeof(::HelloReply)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::_HelloRequest_default_instance_._instance,
@@ -116,17 +120,18 @@ static const ::_pb::Message* const file_default_instances[] = {
 };
 const char descriptor_table_protodef_helloworld_2eproto[] ABSL_ATTRIBUTE_SECTION_VARIABLE(
     protodesc_cold) = {
-    "\n\020helloworld.proto\"\034\n\014HelloRequest\022\014\n\004na"
-    "me\030\001 \001(\t\"\035\n\nHelloReply\022\017\n\007message\030\001 \001(\t2"
-    "b\n\007Greeter\022(\n\010SayHello\022\r.HelloRequest\032\013."
-    "HelloReply\"\000\022-\n\rSayHelloAgain\022\r.HelloReq"
-    "uest\032\013.HelloReply\"\000b\006proto3"
+    "\n\020helloworld.proto\".\n\014HelloRequest\022\014\n\004na"
+    "me\030\001 \001(\t\022\020\n\010chat_msg\030\002 \001(\t\"\035\n\nHelloReply"
+    "\022\017\n\007message\030\001 \001(\t2b\n\007Greeter\022(\n\010SayHello"
+    "\022\r.HelloRequest\032\013.HelloReply\"\000\022-\n\rSayHel"
+    "loAgain\022\r.HelloRequest\032\013.HelloReply\"\000b\006p"
+    "roto3"
 };
 static ::absl::once_flag descriptor_table_helloworld_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_helloworld_2eproto = {
     false,
     false,
-    187,
+    205,
     descriptor_table_protodef_helloworld_2eproto,
     "helloworld.proto",
     &descriptor_table_helloworld_2eproto_once,
@@ -158,6 +163,7 @@ inline PROTOBUF_NDEBUG_INLINE HelloRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from, const ::HelloRequest& from_msg)
       : name_(arena, from.name_),
+        chat_msg_(arena, from.chat_msg_),
         _cached_size_{0} {}
 
 HelloRequest::HelloRequest(
@@ -180,6 +186,7 @@ inline PROTOBUF_NDEBUG_INLINE HelloRequest::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : name_(arena),
+        chat_msg_(arena),
         _cached_size_{0} {}
 
 inline void HelloRequest::SharedCtor(::_pb::Arena* arena) {
@@ -194,6 +201,7 @@ inline void HelloRequest::SharedDtor(MessageLite& self) {
   this_._internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   ABSL_DCHECK(this_.GetArena() == nullptr);
   this_._impl_.name_.Destroy();
+  this_._impl_.chat_msg_.Destroy();
   this_._impl_.~Impl_();
 }
 
@@ -233,15 +241,15 @@ const ::google::protobuf::internal::ClassData* HelloRequest::GetClassData() cons
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 0, 25, 2> HelloRequest::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 33, 2> HelloRequest::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
+    2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
+    4294967292,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
+    2,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     _class_data_.base(),
@@ -251,6 +259,9 @@ const ::_pbi::TcParseTable<0, 1, 0, 25, 2> HelloRequest::_table_ = {
     ::_pbi::TcParser::GetTable<::HelloRequest>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
+    // string chat_msg = 2;
+    {::_pbi::TcParser::FastUS1,
+     {18, 63, 0, PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.chat_msg_)}},
     // string name = 1;
     {::_pbi::TcParser::FastUS1,
      {10, 63, 0, PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.name_)}},
@@ -260,12 +271,16 @@ const ::_pbi::TcParseTable<0, 1, 0, 25, 2> HelloRequest::_table_ = {
     // string name = 1;
     {PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.name_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // string chat_msg = 2;
+    {PROTOBUF_FIELD_OFFSET(HelloRequest, _impl_.chat_msg_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\14\4\0\0\0\0\0\0"
+    "\14\4\10\0\0\0\0\0"
     "HelloRequest"
     "name"
+    "chat_msg"
   }},
 };
 
@@ -277,6 +292,7 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
   (void) cached_has_bits;
 
   _impl_.name_.ClearToEmpty();
+  _impl_.chat_msg_.ClearToEmpty();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -303,6 +319,14 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
             target = stream->WriteStringMaybeAliased(1, _s, target);
           }
 
+          // string chat_msg = 2;
+          if (!this_._internal_chat_msg().empty()) {
+            const std::string& _s = this_._internal_chat_msg();
+            ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+                _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "HelloRequest.chat_msg");
+            target = stream->WriteStringMaybeAliased(2, _s, target);
+          }
+
           if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
             target =
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -326,11 +350,17 @@ PROTOBUF_NOINLINE void HelloRequest::Clear() {
           // Prevent compiler warnings about cached_has_bits being unused
           (void)cached_has_bits;
 
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
             // string name = 1;
             if (!this_._internal_name().empty()) {
               total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                               this_._internal_name());
+            }
+            // string chat_msg = 2;
+            if (!this_._internal_chat_msg().empty()) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_chat_msg());
             }
           }
           return this_.MaybeComputeUnknownFieldsSize(total_size,
@@ -347,6 +377,9 @@ void HelloRequest::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::go
 
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
+  }
+  if (!from._internal_chat_msg().empty()) {
+    _this->_internal_set_chat_msg(from._internal_chat_msg());
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -365,6 +398,7 @@ void HelloRequest::InternalSwap(HelloRequest* PROTOBUF_RESTRICT other) {
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.chat_msg_, &other->_impl_.chat_msg_, arena);
 }
 
 ::google::protobuf::Metadata HelloRequest::GetMetadata() const {
